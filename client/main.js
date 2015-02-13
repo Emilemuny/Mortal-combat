@@ -9,21 +9,51 @@ function init() {
   paintWeapons();
   createFighters();
   paintFighters();
-  chooseWeapon();
-  $('#weapons').on('click', '.weapon', clickWeapon);
+  chooseFighter();
+  $('#weapons').on('click', '.weapon:not(".picked")', clickWeapon);
+  $('#fight').click(clickFight);
 }
 
 var weapons = [];
 var fighters = [];
 var equipped = [];
+var deadFighters = [];
 
-function clickWeapon() {
- var name = $(this).find('.name').text();
- var weapon = _.find(weapons, function(w) { return w.name === name; });
- console.log(name, weapon);
+function clickFight(){
+  if(equipped.length >= 2){
+    var p1 = _.sample(equipped);
+    var p2;
+    while(true){
+      p2 = _.sample(equipped);
+      if(p2.name !== p1.name){
+        break;
+      }
+    }
+    console.log(p2.health);
+    p1.hit(p2);
+    console.log(p2.health);
+
+  }
 }
 
-function chooseWeapon() {
+function clickWeapon() {
+  var weaponName = $(this).find('.name').text();
+  var weapon = _.find(weapons, function(w) { return w.name === weaponName; });
+  var $fighter = $('.choose');
+  var fighterName = $fighter.find('.name').text();
+  var fighter = _.find(fighters, function(f) {return f.name === fighterName;});
+  fighter.weapon = weapon;
+  addWeaponToFighter($fighter, weapon);
+  equipped.push(_.remove(fighters, function(f){return f.name === fighterName;})[0]);
+  $(this).addClass('picked');
+  $fighter.removeClass('choose');
+
+  if(fighters.length){
+    chooseFighter();
+  }
+}
+
+function chooseFighter() {
   var fighter = _.sample(fighters);
   var $fighter = $('.fighter:contains("' + fighter.name + '")');
   $fighter.addClass('choose');
@@ -82,6 +112,7 @@ function paintFighters() {
 
     var $info = $('<div>');
     var $name = $('<div>');
+    $name.addClass('name');
     $name.text(fighter.name);
 
     var $armor = $('<div>');
@@ -97,4 +128,7 @@ function paintFighters() {
     $info.append($name, $armor, $health, $strength);
     $('#fighters').append($outer);
   });
+}
+function addWeaponToFighter($fighter, weapon) {
+  $fighter.children().eq(1).append('<div>w: ' + weapon.name + '</div>')
 }
