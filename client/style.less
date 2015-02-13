@@ -1,3 +1,64 @@
 h1{
-  color :red;
+ color :red;
+}
+
+body {
+   background: url('/images/mk.jpg') no-repeat center center fixed;
+   background-size: cover;
+}
+
+#weapons{
+ .weapon{
+    display: inline-block;
+    background: black;
+    margin-right: 20px;
+    box-shadow: 2px 2px 8px #000000 ;
+    padding: 10px;
+ margin-top: 20px;
+
+ &> div:first-child{
+   width: 100px;
+    height: 100px;
+    background-size: cover;
+    border: 2px solid black;
+    margin: 10px;
+ }
+
+   &> div:nth-child(2){
+       color: white;
+        padding: 10px;
+        font-family: monospace;
+    }
+ }
+}
+
+#fighters{
+ .fighter{
+ display: inline-block;
+ background: black;
+ margin-right: 20px;
+ box-shadow: 2px 2px 8px #000000 ;
+ padding: 10px;
+
+ &> div:first-child{
+   width: 100px;
+ height: 100px;
+ background-size: cover;
+ border: 2px solid black;
+ margin: 10px;
+ }
+
+   &> div:nth-child(2){
+     color: white;
+      padding: 10px;
+      font-family: monospace;
+ }
+ }
+}
+
+
+.choose{
+ border: 1px solid #ffb6c1 !important;
+ background-color: #ffb6c1 !important;
+
 }
